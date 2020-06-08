@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 const Navbar = props => {
   return (
     <nav className={s.Navbar}>
-      <NavLink className={s.item} to={'/Profile/' + props.myID}>Мой профиль</NavLink>
+      <NavLink className={s.item} to={props.myID ? '/Profile/' + props.myID : '/Login'}>Мой профиль</NavLink>
       <NavLink className={s.item} to='/Messages'>Сообщения</NavLink>
       <NavLink className={s.item} to='/Friends'>Друзья</NavLink>
       <NavLink className={s.item} to='/News'>Новости</NavLink>
