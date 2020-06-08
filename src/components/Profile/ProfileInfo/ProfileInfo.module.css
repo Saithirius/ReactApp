@@ -1,0 +1,55 @@
+.profileInfo {
+  display: grid;
+  grid-template-areas: 'a d';
+  grid-template-columns: 300px 1fr;
+}
+.profilePhoto {
+  grid-area: a;
+  width: 250px;
+}
+
+.top{
+  margin: 20px 0px 40px;
+
+}
+.name {
+  margin: 20px 0 10px;
+  font-size: 22px;
+}
+.statusText, .statusInput{
+  margin-top: 0px;
+  padding: 5px 0;
+  font-style: italic;
+}
+.statusInput{
+  width: 100%;
+}
+.statusText{
+  cursor: pointer;
+}
+.statusText:hover{
+  background-color: #999;
+}
+
+.bottom{
+  grid-area: d;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #777; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}

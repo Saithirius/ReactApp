@@ -1,0 +1,25 @@
+.header{
+  text-align: center;
+}
+.loginForm{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: max-content;
+  margin: 30px auto;
+  padding: 10px;
+  border: 3px solid rgba(0, 0, 0, 0.4);
+}
+.loginField{
+  margin: 0px auto 15px;
+}
+.loginField input, .loginRememberMe{
+  font-size: 16px;
+}
+.loginRememberMe{
+  color: #333;
+}
+.loginButton{
+  width: min-content;
+  margin: 0 auto;
+}

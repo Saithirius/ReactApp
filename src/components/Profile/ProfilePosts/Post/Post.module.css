@@ -1,0 +1,30 @@
+.post {
+  margin: 5px 0;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  background-color: #bbb;
+}
+.header{
+  display: flex;
+  flex-direction: row;
+}
+.nameAndDate{
+  margin-left: 10px;
+}
+.name{
+  margin: 3px 0px 2px;
+  font-weight: 700;
+}
+.date{
+  opacity: 0.7;
+  font-weight: 600;
+  font-size: 12px;
+}
+.profilePhoto{
+  height: 40px;
+}
+.postContent{
+  margin: 10px 0px 10px 10px;
+  white-space: pre-line;
+}

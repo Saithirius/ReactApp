@@ -1,0 +1,48 @@
+.friendsPageMain{
+  position: relative;
+  padding-bottom: 30vh;
+}
+.friend{
+  display: flex;
+  flex-direction: row;
+  margin: 10px 0;
+  padding: 15px 10px;
+  border: 1px solid #ccc;
+  background-color: #999;
+}
+.friend img{
+  width: 80px;
+  margin-bottom: 10px;
+}
+.left, .right{
+  display: flex;
+  flex-direction: column;
+}
+.left {
+  margin-right: 50px;
+  width: 80px;
+}
+.left button {
+  font-size: 11px;
+  border: none;
+  padding: 5px 0;
+}
+.right strong{
+  margin: 8px 0;
+  font-size: 24px;
+}
+.right p {
+  margin: 8px 0;
+}
+.status{
+  font-style: italic;
+}
+.moreBtn{
+  display: block;
+  margin: 0 auto;
+  font-size: 18px;
+  border-radius: 20px;
+}
+button:disabled{
+  color: #bbb;
+}

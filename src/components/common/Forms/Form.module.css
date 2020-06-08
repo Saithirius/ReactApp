@@ -1,0 +1,12 @@
+.field{
+  display: flex;
+  flex-direction: column;
+}
+span{
+  margin-top: 5px;
+}
+.formError{
+  padding: 5px;
+  margin-bottom: 10px;
+  background-color: rgba(255, 100, 100, 0.6);
+}

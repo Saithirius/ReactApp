@@ -1,0 +1,26 @@
+.header {
+  height: 50px;
+  grid-area: h;
+  background-color:#111;
+}
+.headerContent{
+  height: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 50px;
+  display: flex;
+  flex-direction: row;
+}
+.logo{
+  margin-left: 10px;
+  width: 30px;
+}
+.login{
+  margin: 0 20px 0 auto;
+  align-self: center;
+  font-weight: 700;
+}
+.login a, .logout {
+  cursor: pointer;
+  color:#ddd;
+}
