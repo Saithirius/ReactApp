@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/ReactApp/static/css/main.1e5fa60c.chunk.css",
+    "main.js": "/ReactApp/static/js/main.ba890a22.chunk.js",
+    "main.js.map": "/ReactApp/static/js/main.ba890a22.chunk.js.map",
+    "runtime-main.js": "/ReactApp/static/js/runtime-main.b525e3b2.js",
+    "runtime-main.js.map": "/ReactApp/static/js/runtime-main.b525e3b2.js.map",
+    "static/js/2.dfc05adf.chunk.js": "/ReactApp/static/js/2.dfc05adf.chunk.js",
+    "static/js/2.dfc05adf.chunk.js.map": "/ReactApp/static/js/2.dfc05adf.chunk.js.map",
+    "index.html": "/ReactApp/index.html",
+    "precache-manifest.1f8a5bb4d36cdb9c915aff2a61358fcf.js": "/ReactApp/precache-manifest.1f8a5bb4d36cdb9c915aff2a61358fcf.js",
+    "service-worker.js": "/ReactApp/service-worker.js",
+    "static/css/main.1e5fa60c.chunk.css.map": "/ReactApp/static/css/main.1e5fa60c.chunk.css.map",
+    "static/js/2.dfc05adf.chunk.js.LICENSE.txt": "/ReactApp/static/js/2.dfc05adf.chunk.js.LICENSE.txt",
+    "static/media/defPhotoLarge.jpg": "/ReactApp/static/media/defPhotoLarge.f66ac043.jpg",
+    "static/media/defPhotoSmall.jpg": "/ReactApp/static/media/defPhotoSmall.8a8b9b5d.jpg",
+    "static/media/logo.svg": "/ReactApp/static/media/logo.bd0264b8.svg",
+    "static/media/preloader.svg": "/ReactApp/static/media/preloader.3add4858.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.b525e3b2.js",
+    "static/js/2.dfc05adf.chunk.js",
+    "static/css/main.1e5fa60c.chunk.css",
+    "static/js/main.ba890a22.chunk.js"
+  ]
+}
