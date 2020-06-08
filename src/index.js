@@ -7,8 +7,6 @@ import store from './redux/redux-store';
 import { Provider } from 'react-redux';
 import { HashRouter } from 'react-router-dom';
 
-window.state = store.getState;
-
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
