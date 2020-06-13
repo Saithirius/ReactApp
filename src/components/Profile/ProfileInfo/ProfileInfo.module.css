@@ -1,16 +1,27 @@
 .profileInfo {
   display: grid;
-  grid-template-areas: 'a d';
+  grid-template-areas: 'left right';
   grid-template-columns: 300px 1fr;
 }
-.profilePhoto {
-  grid-area: a;
-  width: 250px;
+.profilePhotoBlock {
+  grid-area: left;
 }
-
+.inputPhoto{
+  display: none;
+}
+.customFileUpload {
+  display: block;
+  width: max-content;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+.info{
+  grid-area: right;
+  padding-left: 30px;
+}
 .top{
-  margin: 20px 0px 40px;
-
+  margin: 20px 0px 20px;
 }
 .name {
   margin: 20px 0 10px;
@@ -32,24 +43,15 @@
 }
 
 .bottom{
-  grid-area: d;
+  display: flex;
+  flex-direction: column;
 }
-
-::-webkit-scrollbar {
-  width: 10px;
+.bottomItem{
+  margin: 10px 0;
 }
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+.contacts{
+  
 }
- 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #777; 
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+.contactsItem{
+  padding-left: 10px;
 }

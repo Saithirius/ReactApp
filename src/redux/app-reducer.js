@@ -1,4 +1,5 @@
 import { checkAuth } from "./auth-reducer";
+import { getProfile } from "./profile-reducer";
 
 const INIT_SUCCESSFUL = 'appReducer/INIT_SUCCESSFUL';
 
@@ -22,9 +23,10 @@ const appReducer = (state = initialState, action) => {
 
 const initSuccessful = (data) => ({type: INIT_SUCCESSFUL});
 
-export const startInit = () => async (dispatch) => {
+export const startInit = () => async (dispatch, getState) => {
   const checkAuthPromise = dispatch(checkAuth());
-  await Promise.all([checkAuthPromise]);
+  const getMyProfile = dispatch(getProfile(getState().login.id))
+  await Promise.all([checkAuthPromise, getMyProfile]);
   dispatch(initSuccessful());
 };
 

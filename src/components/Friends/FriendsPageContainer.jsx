@@ -6,7 +6,6 @@ import { useEffect } from "react";
 
 const FriendsPage = (props) => {
   useEffect(() => {
-    console.log('useEffect');
     !props.users.length && getUsers();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.users.length]);
@@ -15,7 +14,6 @@ const FriendsPage = (props) => {
     props.getUsers(props.currentPage);
   };
 
-  console.log('render');
   return (
     <Friends users={props.users} follow={props.follow} unfollow={props.unfollow} getUsers={getUsers} isFetching={props.isFetching}/>
   );

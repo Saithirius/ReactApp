@@ -38,6 +38,22 @@ export const API = {
     );
   },
 
+  uploadNewProfileData(data) {
+    return (
+      axiosEl.put('profile', data)
+        .then((response) => response.data)
+    );
+  },
+
+  uploadNewProfilePhoto(photo) {
+    const formData = new FormData();
+    formData.append('image', photo);
+    return (
+      axiosEl.put('/profile/photo', formData)
+        .then((response) => response.data.data)
+    );
+  },
+
   changeStatus(text) {
     return (
       axiosEl.put('profile/status', {status: text})

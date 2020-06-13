@@ -11,6 +11,8 @@ import ProfilePostsContainer from './ProfilePosts/ProfilePostsContainer';
 
 const ProfilePage = (props) => {
 
+  const isOwner = props.myID === props.profileData.userID;
+
   useEffect( () => {
     props.clearProfile();
     props.getProfile(props.match.params.userID);
@@ -20,7 +22,8 @@ const ProfilePage = (props) => {
 
   return (
     <div className={s.Profile}>
-      {props.profileData.userID ? <ProfileInfo profileData={props.profileData} /> : <Preloader />}
+      {/* Добавить триггер полной загрузки страницы, а не смотреть на ID */}
+      {props.profileData.userID ? <ProfileInfo isOwner={isOwner} /> : <Preloader />}
       <ProfilePostsContainer />
     </div>
   );
@@ -29,6 +32,7 @@ const ProfilePage = (props) => {
 const mapStateToProps = (state) => {
   return {
     profileData: state.profilePage.profileData,
+    myID: state.login.id,
   };
 };
 

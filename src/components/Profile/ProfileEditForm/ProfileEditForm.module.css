@@ -1,0 +1,9 @@
+input{
+  font-size: 14px;
+}
+.formItem{
+  margin-bottom: 10px;
+}
+.formItemLabel{
+  font-weight: 700;
+}

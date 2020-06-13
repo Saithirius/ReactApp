@@ -28,26 +28,18 @@ const Status = (props) => {
   };
 
   return (
-    (props.myID === props.userID) ?
+    (props.isOwner) ?
       // На моей странице
       ( statusEditMode ? 
         <input className={s.statusInput} value={status} onChange={changeStatus} autoFocus onBlur={setNewStatus} type="text" maxLength="50"></input> :
-        <p className={s.statusText} onClick={() => changeStatusEditMode(true)}>{props.status ? props.status : "Изменить статус"}</p>
+        <i className={s.statusText} onClick={() => changeStatusEditMode(true)}>{props.status ? props.status : "Изменить статус"}</i>
       ) :
       // На чужой странице
-      <p className={s.status}>{props.status}</p>
+      <i className={s.status}>{props.status}</i>
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    status: state.profilePage.profileData.status,
-    userID: state.profilePage.profileData.userID,
-    myID: state.login.id,
-  };
-};
-
 export default compose(
-  connect(mapStateToProps, { changeStatus }),
+  connect(null, { changeStatus }),
   withRouter
 )(Status);

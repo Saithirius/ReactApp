@@ -70,7 +70,7 @@ export const login = (formData) => async (dispatch) => {
 
 export const logout = () => async (dispatch) => {
   const data = await API.logout();
-  (data.resultCode === 0) ? dispatch(checkAuth()) : alert('Не удалось выйти')
+  (data.resultCode === 0) ? dispatch(checkAuth()) : alert('Не удалось выйти');
 };
 
 export const checkAuth = () => async (dispatch) => {
