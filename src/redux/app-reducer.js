@@ -25,7 +25,8 @@ const initSuccessful = (data) => ({type: INIT_SUCCESSFUL});
 
 export const startInit = () => async (dispatch, getState) => {
   const checkAuthPromise = dispatch(checkAuth());
-  const getMyProfile = dispatch(getProfile(getState().login.id))
+  const myId = getState().login.id;
+  const getMyProfile = myId && dispatch(getProfile(myId))
   await Promise.all([checkAuthPromise, getMyProfile]);
   dispatch(initSuccessful());
 };

@@ -9,6 +9,7 @@ import { Redirect } from "react-router-dom";
 import formStyle from '../common/Forms/Form.module.css'
 
 const maxLength30 = maxLength(30);
+const maxLength10 = maxLength(10);
 
 let Login = props => {
 
@@ -21,7 +22,10 @@ let Login = props => {
   return (
     <div className={s.loginPage}>
       <h2 className={s.header}>вход</h2>
-      <LoginReduxForm onSubmit={onSubmit} isFetching={props.isFetching}/>
+      <LoginReduxForm onSubmit={onSubmit} isFetching={props.isFetching} captcha={props.captcha}/>
+      <h2 className={s.header}>
+        <a href='https://social-network.samuraijs.com/signUp' target='_blank' rel='noopener noreferrer'>Зарегистрироваться</a>
+      </h2>
     </div>
   );
 };
@@ -40,6 +44,15 @@ const LoginForm = (props) => {
         <Field name={"rememberMe"} type="checkbox" component={"input"} />
         запомнить меня
       </div>
+
+      {/* Captcha */}
+      {props.captcha && <div>
+        <img src={props.captcha} alt=''/>
+        <div className={s.loginField}>
+          <Field name={'captcha'} placeholder="Введите символы с картинки" validate={[required, maxLength10]} component={Input}/>
+        </div>
+      </div>}
+
       <button className={s.loginButton} disabled={props.isFetching}>Войти</button>
     </form>
   );
@@ -50,6 +63,7 @@ const LoginReduxForm = reduxForm({ form: "login" })(LoginForm);
 const mapStateToProps = (state) => {
   return {
     isAuth: state.login.isAuth,
+    captcha: state.login.captcha,
     myID: state.login.id,
     isFetching: state.login.isFetching
   };

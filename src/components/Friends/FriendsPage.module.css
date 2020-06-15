@@ -1,6 +1,9 @@
 .friendsPageMain{
   position: relative;
   padding-bottom: 30vh;
+
+  height: 60vh;
+  overflow-y: scroll;
 }
 .friend{
   display: flex;

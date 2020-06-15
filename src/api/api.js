@@ -12,7 +12,14 @@ export const API = {
 
   login(formData) {
     return (
-      axiosEl.post('auth/login', { email: formData.email, password: formData.password, rememberMe: formData.rememberMe})
+      axiosEl.post('auth/login', { ...formData })
+      .then((response) => response.data)
+    )
+  },
+
+  getCaptcha() {
+    return (
+      axiosEl.get('security/get-captcha-url')
       .then((response) => response.data)
     )
   },
@@ -26,7 +33,7 @@ export const API = {
 
   getProfile(userID) {
     return (
-      axiosEl.get('profile/' + (userID ? userID : 7830))
+      axiosEl.get('profile/' + userID)
         .then((response) => response.data)
     );
   },

@@ -2,9 +2,8 @@ const SEND_MESSAGE = 'messagesReducer/SEND-MESSAGE';
 
 let initialState = {
   messagesData: [
-    { id: 0, text: 'Привет' },
-    { id: 1, text: 'Как твои дела?' },
-    { id: 2, text: 'Чем занимаешься?' },
+    { id: 0, text: 'Тут будут диалоги' },
+    { id: 1, text: 'Когда backend добавит такую возможность)' },
   ],
   dialogsData: [
     { id: 0, name: 'Петя' },

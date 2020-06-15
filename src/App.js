@@ -38,7 +38,7 @@ class App extends Component {
                 <Route path='/News' component={News} />
                 <Route path='/Settings' component={Settings} />
                 <Route path='/Login' component={() => <Login />} />
-                <Route exact path='/' render={() => <Redirect to='/Profile/7830' />} />
+                <Route exact path='/' render={() => this.props.myID ? <Redirect to={'/Profile/'+this.props.myID}/> : <Redirect to='/Login' />} />
                 <Route path='*' component={() => <h1>Ошибка 404, нет такой страницы!</h1>} />
               </Switch>
             </div>
@@ -50,7 +50,8 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return{
-    init: state.app.init
+    init: state.app.init,
+    myID: state.login.id,
   }
 };
 

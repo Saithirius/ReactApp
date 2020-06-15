@@ -4,12 +4,14 @@ import { stopSubmit } from "redux-form";
 const LOGIN = 'authReducer/LOGIN';
 const LOGOUT = 'authReducer/LOGOUT';
 const SET_ISFETCHING = 'authReducer/SET-ISFETCHING';
+const GET_CAPTCHA = 'authReducer/GET-CAPTCHA';
 
 let initialState = {
   id: null,
   userName: null,
   email: null,
   isAuth: false,
+  captcha: null,
   isFetching: false
 }
 
@@ -22,7 +24,8 @@ const authReducer = (state = initialState, action) => {
         id: action.id,
         userName: action.userName,
         email: action.email,
-        isAuth: true
+        isAuth: true,
+        captcha: null,
       };
 
     case LOGOUT:
@@ -32,6 +35,12 @@ const authReducer = (state = initialState, action) => {
         userName: null,
         email: null,
         isAuth: false,
+      };
+
+    case GET_CAPTCHA:
+      return {
+        ...state,
+        captcha: action.captcha,
       };
 
     case SET_ISFETCHING:
@@ -55,17 +64,23 @@ export const login = (formData) => async (dispatch) => {
     case 0:
       dispatch(checkAuth())
       break;
-    case 1:
-      dispatch(stopSubmit('login', { _error: 'Неверный email или пароль' }))
-      dispatch({ type: SET_ISFETCHING, isFetching: false })
-      break;
-    case 10:
-      dispatch(stopSubmit('login', { _error: 'Нужно ввести капчу' }))
-      dispatch({ type: SET_ISFETCHING, isFetching: false })
-      break;
-    default:
-      break;
-  }
+      case 1:
+        dispatch(stopSubmit('login', { _error: 'Неверный email или пароль' }))
+        dispatch({ type: SET_ISFETCHING, isFetching: false })
+        break;
+        case 10:
+          dispatch(stopSubmit('login', { _error: 'Нужно ввести капчу' }))
+          dispatch(getCaptcha())
+          dispatch({ type: SET_ISFETCHING, isFetching: false })
+          break;
+          default:
+            break;
+          }
+        };
+        
+const getCaptcha = () => async (dispatch) => {
+  const data = await API.getCaptcha();
+  dispatch({ type: GET_CAPTCHA, captcha: data.url })
 };
 
 export const logout = () => async (dispatch) => {
