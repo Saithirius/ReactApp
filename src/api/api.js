@@ -68,9 +68,9 @@ export const API = {
     );
   },
 
-  getUsers(pageSize, currentPage) {
+  getUsers(pageSize, currentPage, isFriends=false) {
     return (
-      axiosEl.get(`users?count=${pageSize}&page=${currentPage}&friend=true`)
+      axiosEl.get(`users?count=${pageSize}&page=${currentPage}&friend=${isFriends}`)
         .then((response) => response.data)
     );
   },

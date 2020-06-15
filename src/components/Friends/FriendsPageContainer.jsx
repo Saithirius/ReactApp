@@ -1,35 +1,51 @@
-import React from "react";
-import Friends from "./Friends";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import {follow, unfollow, clearAllUsers, getUsers} from "../../redux/friends-reducer";
-import { useEffect } from "react";
+import { clearAllUsers, getUsers, toggleFollow } from "../../redux/friends-reducer";
+import Preloader from "../common/preloader";
+import User from "./User";
+import s from "./FriendsPage.module.css";
 
 const FriendsPage = (props) => {
   useEffect(() => {
-    !props.users.length && getUsers();
+    !props.users.length && props.getUsers(true);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.users.length]);
 
   const getUsers = () => {
-    props.getUsers(props.currentPage);
+    const isFriends = props.friends.length < props.totalFriends;
+    props.getUsers(isFriends);
   };
 
   return (
-    <Friends users={props.users} follow={props.follow} unfollow={props.unfollow} getUsers={getUsers} isFetching={props.isFetching}/>
+    <div className={s.friendsPageMain}>
+      {/* Друзья */}
+      {Boolean(props.friends.length) && <h2>Друзья</h2>}
+      {props.friends.map((u) => (<User user={u} key={u.id} toggleFollow={props.toggleFollow} />))}
+      {/* Пользователи */}
+      {Boolean(props.users.length) && <h2>Пользователи</h2>}
+      {props.users.map((u) => (<User user={u} key={u.id} toggleFollow={props.toggleFollow} />))}
+      {/* Кнопка "ещё" */}
+      {props.isFetching ?
+      <Preloader /> :
+      <button onClick={getUsers} className={s.moreBtn}>Ещё</button>}
+    </div>
   );
 };
 
 const mapStateToProps = (state) => {
   return {
+    friends: state.friendPage.friends,
+    totalFriends: state.friendPage.totalFriends,
+
     users: state.friendPage.users,
-    currentPage: state.friendPage.currentPage,
+    totalUsers: state.friendPage.totalUsers,
+
     isFetching: state.friendPage.isFetching,
   };
 };
 
 export default connect(mapStateToProps, {
-  follow,
-  unfollow,
+  toggleFollow,
   clearAllUsers,
   getUsers,
 })(FriendsPage);
