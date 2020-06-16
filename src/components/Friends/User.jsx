@@ -11,9 +11,9 @@ const User = (props) => {
         <NavLink to={'/Profile/' + props.user.id}><img src={props.user.photos.small} alt="" /></NavLink>
 
         {/* Подписаться */}
-        <button disabled={props.user.followToggle} onClick={() => props.toggleFollow(props.user.id, props.user.followed)}>
+        {props.isAuth && <button disabled={props.user.followToggle} onClick={() => props.toggleFollow(props.user.id, props.user.followed)}>
           {props.user.followed ? 'Отписаться' : 'Подписаться'}
-        </button>
+        </button>}
 
       </div>
       <div className={s.right}>

@@ -1,45 +1,61 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { clearAllUsers, getUsers, toggleFollow } from "../../redux/friends-reducer";
+import { clearAllUsers, getUsers, setTerm, toggleFollow } from "../../redux/friends-reducer";
 import Preloader from "../common/preloader";
-import User from "./User";
 import s from "./FriendsPage.module.css";
+import User from "./User";
 
 const FriendsPage = (props) => {
+
+  const searchRef = React.createRef();
+
   useEffect(() => {
-    !props.users.length && props.getUsers(true);
+    props.clearAllUsers();
+    getUsers();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.users.length]);
+  }, []);
+  useEffect(() => searchRef.current.focus(), [searchRef]);
 
   const getUsers = () => {
-    const isFriends = props.friends.length < props.totalFriends;
-    props.getUsers(isFriends);
+    props.getUsers();
   };
+
+  const searchUser = (e) => {
+    props.clearAllUsers();
+    props.setTerm(e.target.value);
+    getUsers();
+  }
 
   return (
     <div className={s.friendsPageMain}>
+      {/* Поиск по имени */}
+      <input  className={s.searchInput}
+              placeholder='Поиск' 
+              onChange={searchUser} 
+              disabled={props.isFetching} 
+              autoFocus={true} 
+              maxLength='30'
+              ref={searchRef}/>
       {/* Друзья */}
       {Boolean(props.friends.length) && <h2>Друзья</h2>}
-      {props.friends.map((u) => (<User user={u} key={u.id} toggleFollow={props.toggleFollow} />))}
+      {props.friends.map((u) => (<User user={u} key={u.id} isAuth={props.isAuth} toggleFollow={props.toggleFollow} />))}
       {/* Пользователи */}
       {Boolean(props.users.length) && <h2>Пользователи</h2>}
-      {props.users.map((u) => (<User user={u} key={u.id} toggleFollow={props.toggleFollow} />))}
+      {props.users.map((u) => (<User user={u} key={u.id} isAuth={props.isAuth} toggleFollow={props.toggleFollow} />))}
       {/* Кнопка "ещё" */}
       {props.isFetching ?
       <Preloader /> :
-      <button onClick={getUsers} className={s.moreBtn}>Ещё</button>}
+      !props.endedUsers && <button onClick={getUsers} className={s.moreBtn}>Ещё</button>}
     </div>
   );
 };
 
 const mapStateToProps = (state) => {
   return {
+    isAuth: state.login.isAuth,
     friends: state.friendPage.friends,
-    totalFriends: state.friendPage.totalFriends,
-
     users: state.friendPage.users,
-    totalUsers: state.friendPage.totalUsers,
-
+    endedUsers: state.friendPage.endedUsers,
     isFetching: state.friendPage.isFetching,
   };
 };
@@ -48,4 +64,5 @@ export default connect(mapStateToProps, {
   toggleFollow,
   clearAllUsers,
   getUsers,
+  setTerm,
 })(FriendsPage);

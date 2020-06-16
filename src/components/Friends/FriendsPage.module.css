@@ -2,6 +2,12 @@
   position: relative;
   padding-bottom: 10vh;
 }
+.searchInput{
+  outline: none;
+  padding: 3px;
+  font-size: 18px;
+  font-weight: 700;
+}
 .User{
   display: flex;
   flex-direction: row;
