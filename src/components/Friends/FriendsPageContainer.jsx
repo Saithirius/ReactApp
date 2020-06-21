@@ -4,26 +4,32 @@ import { clearAllUsers, getUsers, setTerm, toggleFollow } from "../../redux/frie
 import Preloader from "../common/preloader";
 import s from "./FriendsPage.module.css";
 import User from "./User";
+import { useState } from "react";
 
 const FriendsPage = (props) => {
 
   const searchRef = React.createRef();
+  const [searchMod, setSearchMod] = useState(false);
 
   useEffect(() => {
     props.clearAllUsers();
     getUsers();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  useEffect(() => searchRef.current.focus(), [searchRef]);
+  useEffect(() => {
+    if(searchMod) searchRef.current.focus()
+  }, [searchMod, searchRef]);
 
   const getUsers = () => {
+    setSearchMod(false)
     props.getUsers();
   };
 
   const searchUser = (e) => {
+    setSearchMod(true);
     props.clearAllUsers();
     props.setTerm(e.target.value);
-    getUsers();
+    props.getUsers();
   }
 
   return (
@@ -55,6 +61,7 @@ const mapStateToProps = (state) => {
     isAuth: state.login.isAuth,
     friends: state.friendPage.friends,
     users: state.friendPage.users,
+    term: state.friendPage.term,
     endedUsers: state.friendPage.endedUsers,
     isFetching: state.friendPage.isFetching,
   };
