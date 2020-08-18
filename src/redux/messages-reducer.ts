@@ -1,6 +1,11 @@
 const SEND_MESSAGE = 'messagesReducer/SEND-MESSAGE';
 
-let initialState = {
+type InitialStateType = {
+  messagesData: {id: number, text: string}[],
+  dialogsData: {id: number, name: string}[]
+}
+
+let initialState: InitialStateType = {
   messagesData: [
     { id: 0, text: 'Тут будут диалоги' },
     { id: 1, text: 'Когда backend добавит такую возможность)' },
@@ -13,9 +18,8 @@ let initialState = {
   ]
 }
 
-const messagesReducer = (state = initialState, action) => {
+const messagesReducer = (state = initialState, action: any): InitialStateType => {
   switch (action.type) {
-
     case SEND_MESSAGE:
       const text = action.text.trim();
       if (text) {
@@ -25,13 +29,13 @@ const messagesReducer = (state = initialState, action) => {
         }
       }
       return state;
-      
     default:
       return state;
 
   };
 };
 
-export const sendMessage = (text) => ({ type: SEND_MESSAGE, text: text });
+type SendMessageActionType = {type: typeof SEND_MESSAGE, text: string};
+export const sendMessage = (text: string): SendMessageActionType => ({ type: SEND_MESSAGE, text: text });
 
 export default messagesReducer;

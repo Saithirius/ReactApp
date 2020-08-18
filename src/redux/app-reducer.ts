@@ -3,11 +3,12 @@ import { getProfile } from "./profile-reducer";
 
 const INIT_SUCCESSFUL = 'appReducer/INIT_SUCCESSFUL';
 
-let initialState = {
+type InitialStateType = {init: boolean};
+let initialState: InitialStateType = {
   init: false,
 }
 
-const appReducer = (state = initialState, action) => {
+const appReducer = (state = initialState, action: any): InitialStateType => {
   switch (action.type) {
 
     case INIT_SUCCESSFUL:
@@ -21,9 +22,10 @@ const appReducer = (state = initialState, action) => {
   }
 };
 
-const initSuccessful = (data) => ({type: INIT_SUCCESSFUL});
+type InitSuccessfulActionType = {type: typeof  INIT_SUCCESSFUL};
+const initSuccessful = (): InitSuccessfulActionType => ({type: INIT_SUCCESSFUL});
 
-export const startInit = () => async (dispatch, getState) => {
+export const startInit = () => async (dispatch: any, getState: any) => {
   const checkAuthPromise = dispatch(checkAuth());
   const myId = getState().login.id;
   const getMyProfile = myId && dispatch(getProfile(myId))

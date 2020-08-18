@@ -3,10 +3,18 @@ import { stopSubmit } from "redux-form";
 
 const LOGIN = 'authReducer/LOGIN';
 const LOGOUT = 'authReducer/LOGOUT';
-const SET_ISFETCHING = 'authReducer/SET-ISFETCHING';
+const SET_IS_FETCHING = 'authReducer/SET-IS-FETCHING';
 const GET_CAPTCHA = 'authReducer/GET-CAPTCHA';
 
-let initialState = {
+type InitialStateType = {
+  id: number | null,
+  userName: string | null,
+  email: string | null,
+  isAuth: boolean,
+  captcha: string | null,
+  isFetching: boolean
+}
+let initialState: InitialStateType = {
   id: null,
   userName: null,
   email: null,
@@ -15,7 +23,7 @@ let initialState = {
   isFetching: false
 }
 
-const authReducer = (state = initialState, action) => {
+const authReducer = (state = initialState, action: any): InitialStateType => {
   switch (action.type) {
 
     case LOGIN:
@@ -43,7 +51,7 @@ const authReducer = (state = initialState, action) => {
         captcha: action.captcha,
       };
 
-    case SET_ISFETCHING:
+    case SET_IS_FETCHING:
       return {
         ...state,
         isFetching: action.isFetching
@@ -55,10 +63,11 @@ const authReducer = (state = initialState, action) => {
   }
 };
 
-const setAuthorizedUser = (data) => ({ type: LOGIN, id: data.id, userName: data.login, email: data.email });
+type  SetAuthorizedUserActionType = {type: string, id: number, userName: string, email: string};
+const setAuthorizedUser = (data: {id: number, email: string, login: string}): SetAuthorizedUserActionType => ({ type: LOGIN, id: data.id, userName: data.login, email: data.email });
 
-export const login = (formData) => async (dispatch) => {
-  dispatch({ type: SET_ISFETCHING, isFetching: true })
+export const login = (formData: {email: string, password: string, rememberMe: boolean}) => async (dispatch: any) => {
+  dispatch({ type: SET_IS_FETCHING, isFetching: true })
   const data = await API.login(formData);
   switch (data.resultCode) {
     case 0:
@@ -66,33 +75,33 @@ export const login = (formData) => async (dispatch) => {
       break;
       case 1:
         dispatch(stopSubmit('login', { _error: 'Неверный email или пароль' }))
-        dispatch({ type: SET_ISFETCHING, isFetching: false })
+        dispatch({ type: SET_IS_FETCHING, isFetching: false })
         break;
         case 10:
           dispatch(stopSubmit('login', { _error: 'Нужно ввести капчу' }))
           dispatch(getCaptcha())
-          dispatch({ type: SET_ISFETCHING, isFetching: false })
+          dispatch({ type: SET_IS_FETCHING, isFetching: false })
           break;
           default:
             break;
           }
         };
         
-const getCaptcha = () => async (dispatch) => {
+const getCaptcha = () => async (dispatch: any) => {
   const data = await API.getCaptcha();
   dispatch({ type: GET_CAPTCHA, captcha: data.url })
 };
 
-export const logout = () => async (dispatch) => {
+export const logout = () => async (dispatch: any) => {
   const data = await API.logout();
   (data.resultCode === 0) ? dispatch(checkAuth()) : alert('Не удалось выйти');
 };
 
-export const checkAuth = () => async (dispatch) => {
+export const checkAuth = () => async (dispatch: any) => {
   const data = await API.checkAuth();
   switch(data.resultCode){
     case 0:
-      dispatch({ type: SET_ISFETCHING, isFetching: false })
+      dispatch({ type: SET_IS_FETCHING, isFetching: false })
       return dispatch(setAuthorizedUser(data.data));
 
     case 1:
