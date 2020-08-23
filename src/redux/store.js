@@ -1,6 +1,8 @@
 import profileReducer from "./profile-reducer";
 import messagesReducer from "./messages-reducer";
 
+//Мой стор, писал сам, чтобы разобраться в его работе
+
 let store = {
 
   _state: {
@@ -31,7 +33,7 @@ let store = {
     }
   },
   _callSubscriber() {
-    console.log('State chaged');
+    console.log('State changed');
   },
 
   getState() {

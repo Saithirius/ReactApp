@@ -1,6 +1,8 @@
 import { API } from "../api/api";
 import defLargePhoto from '../assets/img/defPhotoLarge.jpg';
 import defSmallPhoto from '../assets/img/defPhotoSmall.jpg';
+import {ContactsType, PhotosType, PostType, ProfileType} from "../utils/types";
+import {dateFormat} from "../utils/date-format";
 
 const SET_PROFILE = 'profileReducer/SET-PROFILE';
 const CLEAR_PROFILE = 'profileReducer/CLEAR-PROFILE';
@@ -29,20 +31,19 @@ let initState = {
       youtube: null, 
       github: null,
     },
-  },
+  } as ProfileType,
   postsData: [
     { id: 4, text: '\n\n\n\n', date: '17.06.2020' },
     { id: 3, text: '\n', date: '16.06.2020' },
     { id: 2, text: '\n\n\n\n\n\n\n\n', date: '15.06.2020' },
     { id: 1, text: '\n\n', date: '14.06.2020' },
     { id: 0, text: 'Здесь будут посты,\nкогда backend добавит такую возможность', date: '13.06.2020' },
-  ]
+  ] as PostType[]
 }
+type InitStateType = typeof initState
 
-const profileReducer = (state = initState, action) => {
-
+const profileReducer = (state: InitStateType = initState, action: any): InitStateType => {
   switch (action.type) {
-
     case SET_PROFILE:
       if (!action.profile.photos.large) {
         action.profile.photos.large = defLargePhoto;
@@ -61,13 +62,11 @@ const profileReducer = (state = initState, action) => {
           contacts: { ...action.profile.contacts},
         }
       }
-
     case CLEAR_PROFILE:
       return {
         ...state,
         profileData: { ...initState.profileData },
       }
-
     case SET_PROFILE_PHOTO:
       return {
         ...state,
@@ -76,7 +75,6 @@ const profileReducer = (state = initState, action) => {
           photos: action.photos
         }
       }
-
     case SET_STATUS:
       return {
         ...state,
@@ -85,42 +83,41 @@ const profileReducer = (state = initState, action) => {
           status: action.status
         }
       }
-
-
     case ADD_POST:
       const id = state.postsData.length;
       return {
         ...state,
-        postsData: [...state.postsData, { id: id, text: action.text }],
+        postsData: [...state.postsData, {id: id, text: action.text, date: dateFormat(new Date())}],
       }
-
     default:
       return state;
 
   }
 };
 
-export const addNewPost = (text) => ({ type: ADD_POST, text: text });
-export const getProfile = (userID) => async (dispatch) => {
+type AddNewPostActionType = {type: typeof ADD_POST, text: string}
+export const addNewPost = (text: string): AddNewPostActionType => ({ type: ADD_POST, text: text });
+export const getProfile = (userID: number) => async (dispatch: any) => {
   const data = await API.getProfile(userID);
   dispatch({ type: SET_PROFILE, profile: { ...data } });
 };
-export const clearProfile = () => ({ type: CLEAR_PROFILE });
-export const setProfilePhoto = (photo) => async (dispatch) => {
+type ClearProfileActionType = {type: typeof CLEAR_PROFILE}
+export const clearProfile = (): ClearProfileActionType => ({ type: CLEAR_PROFILE });
+export const setProfilePhoto = (photo: string) => async (dispatch: any) => {
   const data = await API.uploadNewProfilePhoto(photo);
   dispatch({ type: SET_PROFILE_PHOTO, photos: { ...data.photos } });
 };
-export const setProfileData = (data) => async (dispatch, getState) => {
-  await API.uploadNewProfileData(data);
+export const setProfileData = (profileData: ProfileType) => async (dispatch: any, getState: any) => {
+  await API.uploadNewProfileData(profileData);
   dispatch(getProfile(getState().login.id));
 };
-export const getStatus = (userID) => async (dispatch) => {
+export const getStatus = (userID: number) => async (dispatch: any) => {
   const data = await API.getStatus(userID);
   dispatch({ type: SET_STATUS, status: data });
 };
-export const changeStatus = (text) => async (dispatch) => {
-  await API.changeStatus(text)
-  dispatch({ type: SET_STATUS, status: text });
+export const changeStatus = (newStatusText: string) => async (dispatch: any) => {
+  await API.changeStatus(newStatusText)
+  dispatch({ type: SET_STATUS, status: newStatusText });
 };
 
 export default profileReducer;

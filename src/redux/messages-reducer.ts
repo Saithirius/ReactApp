@@ -1,22 +1,20 @@
+import {DialogsType, MessageType} from "../utils/types";
+
 const SEND_MESSAGE = 'messagesReducer/SEND-MESSAGE';
 
-type InitialStateType = {
-  messagesData: {id: number, text: string}[],
-  dialogsData: {id: number, name: string}[]
-}
-
-let initialState: InitialStateType = {
+let initialState = {
   messagesData: [
     { id: 0, text: 'Тут будут диалоги' },
     { id: 1, text: 'Когда backend добавит такую возможность)' },
-  ],
+  ] as MessageType[],
   dialogsData: [
     { id: 0, name: 'Петя' },
     { id: 1, name: 'Ваня' },
     { id: 2, name: 'Маша' },
     { id: 3, name: 'Саша' }
-  ]
+  ] as DialogsType[]
 }
+type InitialStateType = typeof initialState;
 
 const messagesReducer = (state = initialState, action: any): InitialStateType => {
   switch (action.type) {
@@ -29,9 +27,8 @@ const messagesReducer = (state = initialState, action: any): InitialStateType =>
         }
       }
       return state;
-    default:
+    default: 
       return state;
-
   };
 };
 

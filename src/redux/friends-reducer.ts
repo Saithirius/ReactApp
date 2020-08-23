@@ -6,16 +6,25 @@ const SET_FRIENDS = 'friendsReducer/SET-FRIENDS';
 const CLEAR_USERS = 'friendsReducer/CLEAR-USERS';
 const ENDED_USERS = 'friendsReducer/ENDED-USERS';
 const SET_TERM = 'friendsReducer/SET-TERM';
-const ISFRIENDS_TOGGLE = 'friendsReducer/ISFRIENDS-TOGGLE';
+const IS_FRIENDS_TOGGLE = 'friendsReducer/IS-FRIENDS-TOGGLE';
 const SET_IS_FETCHING = 'friendsReducer/SET-IS-FETCHING';
 const FOLLOW_TOGGLE = 'friendsReducer/FOLLOW-TOGGLE'; // Подписаться/Отписаться 
 const FOLLOWED_TOGGLE = 'friendsReducer/FOLLOWED-TOGGLE'; // Сейчас осуществляется подписка/отписка
 const PAGE_SIZE = 3;
 
+type UserType = {
+  "name": string
+  "id": number
+  "photos": {
+    "small": string | null
+    "large": string | null
+  },
+  "status": string | null
+  "followed": boolean
+}
 let initialState = {
-
-  friends: [],
-  users: [],
+  friends: [] as UserType[],
+  users: [] as UserType[],
   totalUsers: 0,
   currentPage: 0,
   isFriends: true,
@@ -23,8 +32,8 @@ let initialState = {
   isFetching: false,
   endedUsers: false,
 }
-
-const friendsReducer = (state = initialState, action) => {
+type InitialStateType = typeof initialState
+const friendsReducer = (state: InitialStateType = initialState, action: any) => {
   switch (action.type) {
     //Добавить новых пользователей
     case SET_USERS:
@@ -32,7 +41,7 @@ const friendsReducer = (state = initialState, action) => {
         ...state,
         totalUsers: action.totalUsers,
         currentPage: action.currentPage,
-        users: [...state.users, ...action.users.map(u => {
+        users: [...state.users, ...action.users.map((u: UserType) => {
           if (!u.photos.small) u.photos.small = defPhoto;
           return { ...u, followToggle: false }
         })]
@@ -43,7 +52,7 @@ const friendsReducer = (state = initialState, action) => {
         ...state,
         totalUsers: action.totalUsers,
         currentPage: action.currentPage,
-        friends: [...state.friends, ...action.users.map(u => {
+        friends: [...state.friends, ...action.users.map((u: UserType) => {
           if (!u.photos.small) u.photos.small = defPhoto;
           return { ...u, followToggle: false }
         })]
@@ -61,7 +70,6 @@ const friendsReducer = (state = initialState, action) => {
         friends: state.friends.map(u => (u.id === action.userID) ? { ...u, followed: action.follow } : u),
         users: state.users.map(u => (u.id === action.userID) ? { ...u, followed: action.follow } : u),
       };
-      
     //Чистим список пользователей
     case CLEAR_USERS:
       return {
@@ -69,7 +77,7 @@ const friendsReducer = (state = initialState, action) => {
         ...initialState
       }
     //Теперь ищем не друзей, а пользователей
-    case ISFRIENDS_TOGGLE:
+    case IS_FRIENDS_TOGGLE:
       return {
         ...state,
         isFriends: false,
@@ -94,23 +102,30 @@ const friendsReducer = (state = initialState, action) => {
         friends: state.friends.map(u => (u.id === action.userID) ? { ...u, followToggle: action.isFollowed } : u),
         users: state.users.map(u => ((u.id === action.userID) ? { ...u, followToggle: action.isFollowed } : u))
       }
-
     default:
       return state;
 
   }
 };
 
-const followSuccess = (userID, isFollow) => ({ type: FOLLOW_TOGGLE, userID, follow: isFollow }); // Подписка\Отписка успешна
-const setUsers = (users, totalUsers, currentPage) => ({ type: SET_USERS, users, totalUsers, currentPage });
-const setFriends = (users, totalUsers, currentPage) => ({ type: SET_FRIENDS, users, totalUsers, currentPage });
-export const setTerm = (term) => ({ type: SET_TERM, term });
-const setIsFetching = (isFetching) => ({ type: SET_IS_FETCHING, isFetching });
-const setIsFollowed = (userID, isFollowed) => ({ type: FOLLOWED_TOGGLE, userID, isFollowed }); // Вкл\Выкл режима подписки
-export const clearAllUsers = () => ({ type: CLEAR_USERS });
-const isFriendsToggle = () => ({ type: ISFRIENDS_TOGGLE }); // Меняем isFriends, и сбрасываем текущую стр.
+type FollowSuccessActionType = {type: typeof FOLLOW_TOGGLE, userID: number, follow: boolean}
+const followSuccess = (userID: number, isFollow: boolean): FollowSuccessActionType => ({ type: FOLLOW_TOGGLE, userID, follow: isFollow }); // Подписка\Отписка успешна
+type SetUsersActionType = {type: typeof SET_USERS, users: UserType[], totalUsers: number, currentPage: number}
+const setUsers = (users: UserType[], totalUsers: number, currentPage: number): SetUsersActionType => ({ type: SET_USERS, users, totalUsers, currentPage });
+type SetFriendsActionType = {type: typeof SET_FRIENDS, users: UserType[], totalUsers: number, currentPage: number}
+const setFriends = (users: UserType[], totalUsers: number, currentPage: number): SetFriendsActionType => ({ type: SET_FRIENDS, users, totalUsers, currentPage });
+type SetTermActionType = { type: typeof SET_TERM, term: string}
+export const setTerm = (term: string):SetTermActionType => ({ type: SET_TERM, term });
+type SetIsFetchingActionType = { type: typeof SET_IS_FETCHING, isFetching: boolean}
+const setIsFetching = (isFetching: boolean): SetIsFetchingActionType => ({ type: SET_IS_FETCHING, isFetching });
+type SetIsFollowedActionType = {type: typeof FOLLOWED_TOGGLE, userID: number, isFollowed: boolean}
+const setIsFollowed = (userID: number, isFollowed: boolean): SetIsFollowedActionType => ({ type: FOLLOWED_TOGGLE, userID, isFollowed }); // Вкл\Выкл режима подписки
+type ClearAllUsersActionType = {type: typeof CLEAR_USERS}
+export const clearAllUsers = (): ClearAllUsersActionType => ({ type: CLEAR_USERS });
+type IsFriendsToggleActionType = { type: typeof IS_FRIENDS_TOGGLE}
+const isFriendsToggle = (): IsFriendsToggleActionType => ({ type: IS_FRIENDS_TOGGLE }); // Меняем isFriends, и сбрасываем текущую стр.
 
-export const getUsers = () => async (dispatch, getState) => {
+export const getUsers = () => async (dispatch: any, getState: any) => {
   dispatch(setIsFetching(true));
 
   const term = getState().friendPage.term;
@@ -138,7 +153,7 @@ export const getUsers = () => async (dispatch, getState) => {
 };
 
 // Подписаться\Отписаться
-export const toggleFollow = (userID, isFollow) => async (dispatch) => {
+export const toggleFollow = (userID: number, isFollow: boolean) => async (dispatch: any) => {
   dispatch(setIsFollowed(userID, true));
 
   let response = null;

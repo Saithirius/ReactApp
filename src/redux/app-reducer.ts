@@ -3,10 +3,10 @@ import { getProfile } from "./profile-reducer";
 
 const INIT_SUCCESSFUL = 'appReducer/INIT_SUCCESSFUL';
 
-type InitialStateType = {init: boolean};
-let initialState: InitialStateType = {
+let initialState = {
   init: false,
 }
+type InitialStateType = typeof initialState;
 
 const appReducer = (state = initialState, action: any): InitialStateType => {
   switch (action.type) {

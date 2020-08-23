@@ -6,26 +6,18 @@ const LOGOUT = 'authReducer/LOGOUT';
 const SET_IS_FETCHING = 'authReducer/SET-IS-FETCHING';
 const GET_CAPTCHA = 'authReducer/GET-CAPTCHA';
 
-type InitialStateType = {
-  id: number | null,
-  userName: string | null,
-  email: string | null,
-  isAuth: boolean,
-  captcha: string | null,
-  isFetching: boolean
-}
-let initialState: InitialStateType = {
-  id: null,
-  userName: null,
-  email: null,
+let initialState = {
+  id: null as number | null,
+  userName: null as string | null,
+  email: null as string | null,
   isAuth: false,
-  captcha: null,
+  captcha: null as string | null,
   isFetching: false
 }
+type InitialStateType = typeof initialState;
 
 const authReducer = (state = initialState, action: any): InitialStateType => {
   switch (action.type) {
-
     case LOGIN:
       return {
         ...state,
@@ -35,7 +27,6 @@ const authReducer = (state = initialState, action: any): InitialStateType => {
         isAuth: true,
         captcha: null,
       };
-
     case LOGOUT:
       return {
         ...state,
@@ -44,22 +35,18 @@ const authReducer = (state = initialState, action: any): InitialStateType => {
         email: null,
         isAuth: false,
       };
-
     case GET_CAPTCHA:
       return {
         ...state,
         captcha: action.captcha,
       };
-
     case SET_IS_FETCHING:
       return {
         ...state,
         isFetching: action.isFetching
       };
-
     default:
       return state;
-
   }
 };
 
@@ -73,19 +60,19 @@ export const login = (formData: {email: string, password: string, rememberMe: bo
     case 0:
       dispatch(checkAuth())
       break;
-      case 1:
-        dispatch(stopSubmit('login', { _error: 'Неверный email или пароль' }))
-        dispatch({ type: SET_IS_FETCHING, isFetching: false })
-        break;
-        case 10:
-          dispatch(stopSubmit('login', { _error: 'Нужно ввести капчу' }))
-          dispatch(getCaptcha())
-          dispatch({ type: SET_IS_FETCHING, isFetching: false })
-          break;
-          default:
-            break;
-          }
-        };
+    case 1:
+      dispatch(stopSubmit('login', { _error: 'Неверный email или пароль' }))
+      dispatch({ type: SET_IS_FETCHING, isFetching: false })
+      break;
+    case 10:
+      dispatch(stopSubmit('login', { _error: 'Нужно ввести капчу' }))
+      dispatch(getCaptcha())
+      dispatch({ type: SET_IS_FETCHING, isFetching: false })
+      break;
+    default:
+      break;
+  }
+};
         
 const getCaptcha = () => async (dispatch: any) => {
   const data = await API.getCaptcha();
@@ -103,10 +90,8 @@ export const checkAuth = () => async (dispatch: any) => {
     case 0:
       dispatch({ type: SET_IS_FETCHING, isFetching: false })
       return dispatch(setAuthorizedUser(data.data));
-
     case 1:
       return dispatch({ type: LOGOUT });
-
     default:
       return;
   }
